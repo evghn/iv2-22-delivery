@@ -1,0 +1,15 @@
+img {
+    padding: 7px;
+    border: 2px solid navy;
+}
+
+.logo {
+    background-image: url("/img/milk.jpg");
+    min-width: 50px;
+    display: inline-block;
+    z-index: 10;
+}
+
+.color-panel {
+    background-color: #513681;
+}
