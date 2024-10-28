@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\MyModel;
+use Symfony\Component\VarDumper\VarDumper as VarDumper;
 use yii\web\Controller;
 
 class MyFirstController extends Controller
@@ -29,6 +30,13 @@ class MyFirstController extends Controller
 
     }
 
-    
+    public function actionTest()
+    {
+        VarDumper::dump('apple');
+        VarDumper::dump(strlen('apple'));
+        VarDumper::dump('яблоко яблоко');
+        VarDumper::dump(mb_strlen('яблоко яблоко'));
+        die;
+    }
 
 }

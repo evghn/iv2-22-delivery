@@ -10,7 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\RegisterForm;
-use yii\helpers\VarDumper;
+use Symfony\Component\VarDumper\VarDumper as VarDumper;
+
 
 class SiteController extends Controller
 {
@@ -63,6 +64,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        //  VarDumper::dump(Yii::$app->user?->identity?->isAdmin);
+        // // VarDumper::dump(Yii::$app->user?->identity?->getUserLogin());
+        // // VarDumper::dump(Yii::$app->user?->identity?->userLogin);
+        
+        // // VarDumper::dump(Yii::$app->user->identity->login);
+        //  die;
+
         return $this->render('index');
     }
 
@@ -134,16 +142,23 @@ class SiteController extends Controller
         $model = new RegisterForm();
 
         // if ($this->request->isPost)
-        if (Yii::$app->request->isPost) {
-            $model->load(Yii::$app->request->post());
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            // VarDumper::dump(Yii::$app->request->post(), 10, true); die;
+
+            if ($user = $model->register()) {
+                Yii::$app->user->login($user, 60*60);
+                return $this->goHome();
+                // VarDumper::dump($user, 1, true); die;
+            }
+
             
-            VarDumper::dump($model, 10, true); die;
+            // VarDumper::dump($model, 10, true); die;
             // VarDumper::dump(Yii::$app->request->post(), 10, true);
             // VarDumper::dump(Yii::$app->request->post('RegisterForm'), 10, true);
 
             // $model->name = Yii::$app->request->post('RegisterForm')['name'];
             // $model->surname = Yii::$app->request->post('RegisterForm')['surname'];
-            VarDumper::dump($model->attributes, 1, true); die;
+            // VarDumper::dump($model->attributes, 1, true); die;
         }
 
         return $this->render('register', compact('model'));
