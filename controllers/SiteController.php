@@ -30,6 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    
                 ],
             ],
             'verbs' => [
@@ -87,7 +88,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return  
+                Yii::$app->user->identity->isAdmin
+                        ? $this->redirect('/admin')
+                        : $this->goHome();            
         }
 
         $model->password = '';
@@ -142,12 +146,16 @@ class SiteController extends Controller
         $model = new RegisterForm();
 
         // if ($this->request->isPost)
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+                    //false                     []
+        if ($model->load(Yii::$app->request->post())) {
             // VarDumper::dump(Yii::$app->request->post(), 10, true); die;
 
             if ($user = $model->register()) {
-                Yii::$app->user->login($user, 60*60);
-                return $this->goHome();
+                if (Yii::$app->user->login($user, 60*60)) {
+                    return Yii::$app->user->identity->isAdmin
+                        ? $this->redirect('/admin')
+                        : $this->goHome();
+                }
                 // VarDumper::dump($user, 1, true); die;
             }
 

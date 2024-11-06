@@ -13,3 +13,13 @@ img {
 .color-panel {
     background-color: #513681;
 }
+
+.btn-category {
+    background-color: rgb(51, 5, 73);
+    color: #eee;
+}
+
+.btn-category:hover {
+    background-color: rgb(121, 25, 166);
+    color: #888;
+}
