@@ -8,7 +8,8 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'name' => 'my company',
-    'language' => 'ru-RU',
+    'language' => 'ru-RU',    
+    'defaultRoute' => 'catalog2',
     
 
     'aliases' => [
@@ -62,6 +63,9 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
+        ],
+        'account' => [
+            'class' => 'app\modules\account\Module',
         ],
     ],
 
