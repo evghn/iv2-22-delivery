@@ -33,14 +33,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <?php
     NavBar::begin([
         // 'brandLabel' => '<img src="/img/noImage.png" style="width: 50px"> my company',
-        'brandLabel' => '<div class="logo"></div>' . Yii::$app->name,
+        'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md color-panel fixed-top', 'data-bs-theme' => "dark"]
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            //['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Каталог', 'url' => ['/catalog2']],
+            ['label' => 'Каталог light', 'url' => ['/catalog']],
             ['label' => 'About', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
             //['label' => 'my page', 'url' => ['/my-first/hello']],
@@ -51,6 +52,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             
             !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin
                 ? ['label' => 'Панель управления', 'url' => ['/admin']]
+                : '',
+            
+            !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+                ? ['label' => 'Личный кабинет', 'url' => ['/account']]
                 : '',
 
             Yii::$app->user->isGuest
