@@ -41,7 +41,7 @@ $this->title = "Заказ №"
                 'format' => ['datetime', 'php:d.m.Y H:i:s'],
             ],
             [
-                'attribute' => 'date_oder',
+                'attribute' => 'date_order',
                 'format' => ['datetime', 'php:d.m.Y'],
             ],
             'time_order',

@@ -14,6 +14,7 @@ use yii\bootstrap5\Html;
     <div>
         <?= Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => "btn btn-outline-primary"]) ?>
         <?= Html::a('Заказать', ['/account/order/create', 'product_id' => $model->id], ['class' => "btn btn-outline-success w-100 mt-2"]) ?>
+        <?= Html::a('Заказать2', ['/account/order/create2', 'product_id' => $model->id], ['class' => "btn btn-outline-success w-100 mt-2"]) ?>
         
     </div>
   </div>
