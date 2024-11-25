@@ -3,6 +3,8 @@
 namespace app\modules\account\controllers;
 
 use app\models\Order;
+use app\models\Order2;
+use app\models\Order3;
 use app\models\Outpost;
 use app\models\PayType;
 use app\models\Status;
@@ -100,6 +102,35 @@ class OrderController extends Controller
         }
 
         return $this->render('create', [
+            'model' => $model,
+            'payTypes' => $payTypes,
+            'outposts' => $outposts,
+        ]);
+    }
+
+     public function actionCreate2($product_id)
+    {
+        $model = new Order2();
+        $model->product_id = $product_id;
+        $model->status_id = Status::getStatusId('Новый');
+        $model->user_id = Yii::$app->user->id;
+
+        $payTypes = PayType::getPayTypes();
+        $outposts = Outpost::getOutposts();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {                
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    // VarDumper::dump($model->errors, 10, true); die;
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create2', [
             'model' => $model,
             'payTypes' => $payTypes,
             'outposts' => $outposts,
