@@ -19,6 +19,10 @@ use yii\bootstrap5\Html;
         <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
           ? Html::a('Заказать вариант 2', ['/account/order/create2', 'product_id' => $model->id], ['class' => "btn btn-outline-success w-100 mt-2", 'data-pjax' => 0])
           : '' ?>
+
+        <?= !Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin
+          ? Html::a('Заказать вариант 3', ['/account/order/create3', 'product_id' => $model->id], ['class' => "btn btn-outline-success w-100 mt-2", 'data-pjax' => 0])
+          : '' ?>
           
         
     </div>
