@@ -16,7 +16,8 @@ use yii\widgets\Pjax;
         'id' => 'form-order-pjax',
         'enablePushState' => false,
         'timeout' => 5000,
-    ]) ?>
+    ]) 
+    ?>
 
         <?php $form = ActiveForm::begin([
             'id' => 'form-order',
@@ -51,6 +52,6 @@ use yii\widgets\Pjax;
 </div>
 
 <?php
-
+// $this->registerJsFile('/js/order.js', ['depends' => JqueryAsset::class]);
 $this->registerJsFile('/js/order2.js', ['depends' => '\yii\web\JqueryAsset']);
 
