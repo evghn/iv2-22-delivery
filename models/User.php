@@ -78,6 +78,40 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
+
+
+    /**
+     * Gets query for [[Favourites]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFavourites()
+    {
+        return $this->hasMany(Favourite::class, ['user_id' => 'id']);
+    }
+
+
+    /**
+     * Gets query for [[Orders]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ReactionUsers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReactionUsers()
+    {
+        return $this->hasMany(ReactionUser::class, ['user_id' => 'id']);
+    }
+
+    
 /*{
 	"Куки запроса": {
 		

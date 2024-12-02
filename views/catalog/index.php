@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+
+    ]); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => fn($model) => 
                     "<div>"
-                        . $model->title 
+                        . Html::encode($model->title) 
                         .  Html::img('/img/' . $model->photo, ['class' => 'w-25 d-block mt-2', 'alt' => 'photo'])
                         . "</div>",
             ],
