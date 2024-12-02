@@ -27,5 +27,6 @@ return  [
     'dsn' => 'mysql:host=localhost;port=33061;dbname=delivery_22',
     'username' => 'root',
     'password' => '',
-    'charset' => 'utf8',        
+    'charset' => 'utf8', 
+    // 'tablePrefix' => 'delivery_22'       
 ];

@@ -23,3 +23,60 @@ img {
     background-color: rgb(121, 25, 166);
     color: #888;
 }
+
+
+.is-invalid {
+    animation: invalid 0.8s ease 1;
+}
+
+.is-valid {
+    animation: isvalid 1s ease 1;
+}
+
+.invalid-feedback {
+    animation: feedback 1s ease 1;
+}
+
+#main, table, .catalog/* div[data-pjax-container]>div */ {
+    animation: main 1.5s ease 1;
+}
+
+@keyframes main {
+    0%{
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }    
+}
+
+@keyframes feedback {
+    0%{
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }    
+}
+
+@keyframes isvalid {
+    0%, 50%, 100%{
+        box-shadow: 0 0 1px rgb(3, 218, 3);
+    }
+
+    25%, 75% {
+        box-shadow: 0 0 7px rgb(1, 100, 1);
+    }    
+}
+
+@keyframes invalid {
+    0%, 50%, 100%{
+        transform: translateY(0);
+    }
+
+    25%, 75% {
+        transform: translateY(-10px);
+    }    
+}
