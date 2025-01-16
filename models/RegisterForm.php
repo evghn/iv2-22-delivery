@@ -40,8 +40,8 @@ class RegisterForm extends Model
             // +7 \( [0-9]{3} \) \- [0-9]{3} \- [0-9]{2} \- [0-9]{2}
             // +7 \( [\d]{3}  \) \- [\d]{3} (\- [\d]{2}){2} 
             // ['phone', 'match', 'pattern' => '/^\+7\([0-9]{3}\)\-[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
-            ['phone', 'match', 'pattern' => '/^\+7\([\d]{3}\)\-[\d]{3}(\-[\d]{2}){2}$/'],
-            [['login'], 'unique', 'targetClass' => User::class],
+            // ['phone', 'match', 'pattern' => '/^\+7\([\d]{3}\)\-[\d]{3}(\-[\d]{2}){2}$/'],
+            // [['login'], 'unique', 'targetClass' => User::class],
 
             //+7(999)-999-9_-__
             //+7(999)-999-99-99
@@ -52,9 +52,9 @@ class RegisterForm extends Model
 
             // 
             //пароль (обязательное присутствие хотя бы одной цифры и буквы в верхнем и нижнем регистре)
-            ['password', 'match', 'pattern' => "/^(?=.*[\d])(?=.*[A-ZА-ЯЁ])(?=.*[a-zа-яё]).+$/u"],
+            // ['password', 'match', 'pattern' => "/^(?=.*[\d])(?=.*[A-ZА-ЯЁ])(?=.*[a-zа-яё]).+$/u"],
             //пароль (обязательное присутствие хотя бы одной цифры и буквы в верхнем и нижнем регистре, только латинкие символы и цифры)
-            ['password', 'match', 'pattern' => "/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z\d]{3,}$/"],
+            // ['password', 'match', 'pattern' => "/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z\d]{3,}$/"],
            
         ];
     }
@@ -93,12 +93,16 @@ class RegisterForm extends Model
             $user->auth_key = Yii::$app->security->generateRandomString();
 
             if (! $user->save()) {
-                VarDumper::dump($user->errors); die;    
+                // VarDumper::dump($user->errors); die;
+                Yii::debug($user->errors);
+                $user = null;    
             }
 
             // VarDumper::dump($user); die;
         } else {
             // VarDumper::dump($this->errors); die;
+            Yii::debug($this->errors);
+            
         }
 
         return $user ?? false;
