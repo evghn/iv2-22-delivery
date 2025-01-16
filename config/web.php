@@ -63,7 +63,7 @@ $config = [
     'modules' => [
         'admin-panel' => [
             'class' => 'app\modules\admin\Module',
-            'defaultRoute' => 'product/index' // controller/action
+            'defaultRoute' => 'order/index' // controller/action
         ],
         'account' => [
             'class' => 'app\modules\account\Module',
