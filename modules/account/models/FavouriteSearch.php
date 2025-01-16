@@ -12,6 +12,9 @@ use Yii;
  */
 class FavouriteSearch extends Favourite
 {
+    public string $product_category = '';
+    public string $product_title = '';
+
     /**
      * {@inheritdoc}
      */
@@ -19,6 +22,16 @@ class FavouriteSearch extends Favourite
     {
         return [
             [['id', 'user_id', 'product_id'], 'integer'],
+            [['product_category','product_title'], 'safe'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            ...parent::attributeLabels(),
+            'product_category' => 'Категория товара',
+            'product_title' => 'Наименование товара',
         ];
     }
 
@@ -41,7 +54,9 @@ class FavouriteSearch extends Favourite
     public function search($params)
     {
         $query = Favourite::find()
-            ->with('product')
+            ->joinWith([
+                'product' => fn($q) => $q->joinWith('category')
+            ])
             ->where([
                 'user_id' => Yii::$app->user->id,
                 'status' => 1
@@ -52,6 +67,16 @@ class FavouriteSearch extends Favourite
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                   'product_category' => [
+                        'asc' => ['category.title' => SORT_ASC],
+                        'desc' => ['category.title' => SORT_DESC],
+                        'default' => SORT_ASC,
+                        'label' => 'Категория'
+                   ] 
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -67,8 +92,12 @@ class FavouriteSearch extends Favourite
             'id' => $this->id,
             'user_id' => $this->user_id,
             'product_id' => $this->product_id,
-        ]);
+            'category.id' => $this->product_category,
+        ])
+            ->andFilterWhere(['like', 'product.title', $this->product_title])
+        ;
 
+        // Yii::debug($query->createCommand()->rawSql);
         return $dataProvider;
     }
 }

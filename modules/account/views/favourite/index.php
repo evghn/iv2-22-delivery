@@ -21,7 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'enablePushState' => false,
         'timeout' => 5000,
     ]); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <div>
+         <?= $dataProvider->sort->link('product_category') ?>
+    </div>
+
+    <?= $this->render('_search', [
+        'model' => $searchModel,
+        'categories' => $categories,
+    ]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

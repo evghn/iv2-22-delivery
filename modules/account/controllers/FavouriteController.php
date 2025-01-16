@@ -2,6 +2,7 @@
 
 namespace app\modules\account\controllers;
 
+use app\models\Category;
 use app\models\Favourite;
 use app\modules\account\models\FavouriteSearch;
 use yii\web\Controller;
@@ -46,11 +47,14 @@ class FavouriteController extends Controller
                     Favourite::changeForUser($id);
                     break;
             }
-        } 
+        }
+        
+        $categories = Category::getCategories();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'categories' => $categories,
         ]);
     }
 
