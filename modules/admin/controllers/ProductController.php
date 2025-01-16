@@ -79,6 +79,11 @@ class ProductController extends Controller
             if ($model->load($this->request->post())) {
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 
+                // без записи в бд
+                // if (is_null($model->imageFile) || $model->upload()) {
+                
+
+                // с записью в бд
                 if ($model->upload()) {
                     if ($model->save(false)){
                         return $this->redirect(['view', 'id' => $model->id]);
@@ -106,13 +111,32 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $categories = Category::getCategories();
+        
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                
+                // без записи в бд
+                // if (is_null($model->imageFile) || $model->upload()) {
+                
+
+                // с записью в бд
+                if ($model->upload()) {
+                    if ($model->save(false)){
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                    }
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('update', [
             'model' => $model,
+            'categories' => $categories,
         ]);
     }
 
