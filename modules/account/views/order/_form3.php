@@ -19,13 +19,23 @@ use yii\widgets\Pjax;
     ]) ?>
 
         <?php $form = ActiveForm::begin([
-            'id' => 'form-order',            
+            'id' => 'form-order',  
+            'enableAjaxValidation' => true,          
         ]); ?>
         
         <div class="d-flex col-4 justify-content-between">
-            <?= $form->field($model, 'date_order')->textInput(['type' => 'date', 'min' => date('Y-m-d')]) ?>
+            <?= $form->field($model, 'date_order', [/* 'enableAjaxValidation' => true */])->textInput(['type' => 'date', 'min' => date('Y-m-d')]) ?>
         
-            <?= $form->field($model, 'time_order')->textInput(['type' => 'time', 'min' => '09:00', 'max' => '20:00']) ?>
+            <!-- <?= $form->field($model, 'time_order', [/* 'enableAjaxValidation' => true */])->textInput(['type' => 'time', 'min' => '09:00', 'max' => '20:00']) ?> -->
+            <?= $form->field($model, 'time_order')->dropDownList([
+                '08:00' => '08:00',
+                '09:00' => '09:00',
+                '10:00' => '10:00',
+                '11:00' => '11:00',
+                '12:00' => '12:00',
+                '13:00' => '13:00',
+            ], ['prompt' => 'Выберете время посещения']) ?>
+
         </div>
 
         <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>

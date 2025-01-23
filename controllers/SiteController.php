@@ -11,7 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\RegisterForm;
 use Symfony\Component\VarDumper\VarDumper as VarDumper;
-
+use yii\bootstrap5\ActiveForm;
 
 class SiteController extends Controller
 {
@@ -65,6 +65,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        Yii::debug(Yii::$app->security->generatePasswordHash('123123'));
         //  VarDumper::dump(Yii::$app->user?->identity?->isAdmin);
         // // VarDumper::dump(Yii::$app->user?->identity?->getUserLogin());
         // // VarDumper::dump(Yii::$app->user?->identity?->userLogin);
@@ -148,8 +149,13 @@ class SiteController extends Controller
         $model = new RegisterForm();
 
         // if ($this->request->isPost)
-                    //false                     []
+        //false                     []
         if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
             // VarDumper::dump(Yii::$app->request->post(), 10, true); die;
 
             if ($user = $model->register()) {

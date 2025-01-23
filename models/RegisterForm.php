@@ -41,7 +41,7 @@ class RegisterForm extends Model
             // +7 \( [\d]{3}  \) \- [\d]{3} (\- [\d]{2}){2} 
             // ['phone', 'match', 'pattern' => '/^\+7\([0-9]{3}\)\-[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
             // ['phone', 'match', 'pattern' => '/^\+7\([\d]{3}\)\-[\d]{3}(\-[\d]{2}){2}$/'],
-            // [['login'], 'unique', 'targetClass' => User::class],
+            [['login'], 'unique', 'targetClass' => User::class],
 
             //+7(999)-999-9_-__
             //+7(999)-999-99-99

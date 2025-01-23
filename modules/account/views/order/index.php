@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3><?= Html::encode($this->title) ?></h3>
     <div class="my-3">
         <?= Html::a('Избранное', ['/account/favourite'], ['class' => 'btn btn-outline-success']) ?>
+        <?= Html::a('Заявка', ['/account/crreate'], ['class' => 'btn btn-outline-primary']) ?>
     </div>
     
 
