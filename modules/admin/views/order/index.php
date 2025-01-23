@@ -119,11 +119,13 @@ $statusesTitle = array_flip($statuses);
                         $view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
                         $cancel = '';
                         $cancel_modal = '';
+                        $cancel_modal2 = '';
                         $apply = '';
                         if ($model->status_id == $statusesTitle['Новый']) {
                             $apply = Html::a('Подтвердить', ['apply', 'id' => $model->id], ['class' => 'btn btn-outline-success',]);
                             $cancel = Html::a('Отменить', ['cancel', 'id' => $model->id], ['class' => 'btn btn-outline-warning',]);
                             $cancel_modal = Html::a('Отменить (модалка)', ['cancel-modal', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
+                            $cancel_modal2 = Html::a('Отменить (модалка2)', ['cancel-modal2', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
                             
                                 //         'data' => [
                                 //             'confirm' => 'Вы точно хотите удалить данный заказ?',
@@ -140,7 +142,7 @@ $statusesTitle = array_flip($statuses);
                         //         ],
                         //     ])
                         //     : '';
-                        return "<div class='d-flex gap-3 flex-wrap'>$view $apply $cancel $cancel_modal</div>";
+                        return "<div class='d-flex gap-3 flex-wrap'>$view $apply $cancel $cancel_modal $cancel_modal2</div>";
                     }
                 ],
             ],
@@ -152,15 +154,19 @@ $statusesTitle = array_flip($statuses);
 
 <?php
     if ($dataProvider->count) {
-        Modal::begin([
-            'id' => 'cancel-modal',
-            'title' => 'Отмена заказа',
-            'size' => 'modal-lg'
-        ]);    
-            echo $this->render('form-modal', compact('model_cancel'));    
-        Modal::end();
+        $this->params['order'] = [
+            'model' => $model_cancel,
+        ];
 
-        $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
+        // Modal::begin([
+        //     'id' => 'cancel-modal',
+        //     'title' => 'Отмена заказа',
+        //     'size' => 'modal-lg'
+        // ]);    
+        //     echo $this->render('form-modal', compact('model_cancel'));    
+        // Modal::end();
+
+        // $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
     }
 
 ?>
