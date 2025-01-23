@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Category;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -11,6 +12,7 @@ use yii\widgets\ActiveForm;
 <div class="product-search">
 
     <?php $form = ActiveForm::begin([
+        'id' => 'form-product-search',
         'action' => ['index'],
         'method' => 'get',
         'options' => [
@@ -18,33 +20,22 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <div class="d-flex justify-content-start align-items-end gap-3">
 
-    <?= $form->field($model, 'photo') ?>
+        <?= $form->field($model, 'title') ?>
+        <?= $form->field($model, 'title_search')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'price') ?>
 
-    <?= $form->field($model, 'count') ?>
+        <?= $form->field($model, 'category_id')->dropDownList(Category::getCategories(), [
+            'prompt' => 'Выберете категорию'
+        ]) ?>
 
-    <?php // echo $form->field($model, 'like') ?>
-
-    <?php // echo $form->field($model, 'dislike') ?>
-
-    <?php // echo $form->field($model, 'weight') ?>
-
-    <?php // echo $form->field($model, 'kilocalories') ?>
-
-    <?php // echo $form->field($model, 'shelf_life') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
-
-    <?php // echo $form->field($model, 'category_id') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <div class="form-group">
+            <?= Html::a('Reset', '/', ['class' => '']) ?>
+        </div>
+        
+        
     </div>
 
     <?php ActiveForm::end(); ?>

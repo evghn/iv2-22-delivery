@@ -24,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin([
         'id' => 'catalog-pjax',
-        'enablePushState' => false
+        // 'enablePushState' => false
     ]); ?>
-    <?php // $this->render('_search', ['model' => $searchModel]); ?>
+    <?= $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
