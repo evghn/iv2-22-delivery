@@ -45,7 +45,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Каталог', 'url' => ['/catalog2']],
             ['label' => 'Каталог light', 'url' => ['/catalog']],
-            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'dynamic', 'url' => ['/dmf']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
             //['label' => 'my page', 'url' => ['/my-first/hello']],
 
@@ -63,6 +63,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             Yii::$app->user->isGuest
                 ? ['label' => 'Панель управления', 'url' => ['/admin-panel/login']]
                 : '',
+            ['label' => 'Почта', 'url' => ['/site/mail']],
                 
             Yii::$app->user->isGuest
                 ? ['label' => 'Вход', 'url' => ['/site/login']]
@@ -98,6 +99,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </div>
     </div>
 </footer>
+
+<div class="toast-container position-fixed top-5 end-0 p-3" >
+    <div class="toast bg-warning text-dark border-0 top-5 end-0 bg-opacity-75 fs-5" role="status" aria-live="polite" aria-atomic="true" id="t2"  data-bs-autohide="true" data-bs-delay= '5000' >
+        <div class="d-flex">
+            <div class="toast-body">
+                Привет, мир! Это тост-сообщение.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+    </div>
+</div>
 <?php
 
     // Yii::debug($this->params);
