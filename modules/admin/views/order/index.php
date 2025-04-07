@@ -12,6 +12,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\web\JqueryAsset;
 use yii\widgets\Pjax;
+
 /** @var yii\web\View $this */
 /** @var app\modules\admin\models\OrderSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -39,134 +40,138 @@ $statusesTitle = array_flip($statuses);
         'timeout' => 5000,
     ]); ?>
 
-        <?php 
-            if (Yii::$app->session->hasFlash('cancel-modal-info')) {
-                
-                Yii::$app->session->setFlash('warning', Yii::$app->session->getFlash('cancel-modal-info'));
-                Yii::$app->session->removeFlash('cancel-modal-info');
-                echo Alert::widget();
-            }
-        ?>
+    <?php
+    if (Yii::$app->session->hasFlash('cancel-modal-info')) {
 
-        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        Yii::$app->session->setFlash('warning', Yii::$app->session->getFlash('cancel-modal-info'));
+        Yii::$app->session->removeFlash('cancel-modal-info');
+        echo Alert::widget();
+    }
+    ?>
 
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'formatter' => [
-                'class' => '\yii\i18n\Formatter',
-                'nullDisplay' => '',
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'formatter' => [
+            'class' => '\yii\i18n\Formatter',
+            'nullDisplay' => '',
+        ],
+        'pager' => [
+            // 'class' => LinkPager::class,
+            'class' => '\yii\bootstrap5\LinkPager',
+        ],
+        'columns' => [
+
+            'id',
+            [
+                'attribute' => 'created_at',
+                'format' => ['datetime', 'php:d.m.Y H:i:s'],
             ],
-            'pager' => [
-                // 'class' => LinkPager::class,
-                'class' => '\yii\bootstrap5\LinkPager',
+            [
+                'attribute' => 'user_id',
+                'value' => fn($model) => $model->user->fio,
+                'headerOptions' => [
+                    'width' => 200,
+                ]
             ],
-            'columns' => [
-            
-                'id',            
-                [
-                    'attribute' => 'created_at',
-                    'format' => ['datetime', 'php:d.m.Y H:i:s'],
+
+            [
+                'label' => 'Дата и время получения',
+                'attribute' => 'date_order',
+                'value' => fn($model) =>
+                Yii::$app->formatter->asDate($model->date_order, 'php:d.m.Y ')
+                    . Yii::$app->formatter->asTime($model->time_order, 'php:H:i:s'),
+            ],
+            [
+                'attribute' => 'status_id',
+                'value' => fn($model) => $model->status->title,
+                'filter' => $statuses,
+                'headerOptions' => [
+                    'width' => 200,
                 ],
-                [
-                    'attribute' => 'user_id',
-                    'value' => fn($model) => $model->user->fio,
-                    'headerOptions' => [
-                        'width' => 200,
-                    ]
+            ],
+            [
+                'attribute' => 'comment',
+                'value' => fn($model) => $model->comment,
+
+            ],
+            [
+                'attribute' => 'outpost_id',
+                'value' => fn($model) => $model->outpost?->title,
+                'filter' => Outpost::getOutposts(),
+                'headerOptions' => [
+                    'width' => 200,
                 ],
-                
-                [
-                    'label' => 'Дата и время получения',
-                    'attribute' => 'date_order',
-                    'value' => fn($model) => 
-                        Yii::$app->formatter->asDate($model->date_order, 'php:d.m.Y ')
-                        . Yii::$app->formatter->asTime($model->time_order, 'php:H:i:s'),
-                ],
-                [
-                    'attribute' => 'status_id',
-                    'value' => fn($model) => $model->status->title,
-                    'filter' => $statuses,
-                    'headerOptions' => [
-                        'width' => 200,
-                    ],
-                ],            
-                [
-                    'attribute' => 'comment',
-                    'value' => fn($model) => $model->comment,
-                
-                ],
-                [
-                    'attribute' => 'outpost_id',
-                    'value' => fn($model) => $model->outpost?->title,
-                    'filter' => Outpost::getOutposts(),
-                    'headerOptions' => [
-                        'width' => 200,
-                    ],              
-                ],
-                //'status_id',
-                //'outpost_id',
-                //'comment',
-                
-                
-                //'product_id',
-                //'pay_type_id',
-                //'comment_admin',
-                [
-                    'label' => 'Действия с заказом',
-                    'format' => 'raw',
-                    'value' => function ($model) use ($statusesTitle) {
-                        $view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
-                        $cancel = '';
-                        $cancel_modal = '';
-                        $cancel_modal2 = '';
-                        $apply = '';
-                        if ($model->status_id == $statusesTitle['Новый']) {
-                            $apply = Html::a('Подтвердить', ['apply', 'id' => $model->id], ['class' => 'btn btn-outline-success',]);
-                            $cancel = Html::a('Отменить', ['cancel', 'id' => $model->id], ['class' => 'btn btn-outline-warning',]);
-                            $cancel_modal = Html::a('Отменить (модалка)', ['cancel-modal', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
-                            $cancel_modal2 = Html::a('Отменить (модалка2)', ['cancel-modal2', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
-                            
-                                //         'data' => [
-                                //             'confirm' => 'Вы точно хотите удалить данный заказ?',
-                                //             'method' => 'post',
-                                //         ],
-                                //     ])
-                        }
-                        // $delete = $model->status_id == Status::getStatusId('Новый')
-                        //     ? Html::a('Удалить', ['delete', 'id' => $model->id], [
-                        //         'class' => 'btn btn-outline-danger',
+            ],
+            //'status_id',
+            //'outpost_id',
+            //'comment',
+
+
+            //'product_id',
+            //'pay_type_id',
+            //'comment_admin',
+            [
+                'label' => 'Действия с заказом',
+                'format' => 'raw',
+                'value' => function ($model) use ($statusesTitle) {
+                    $view = Html::a('Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary']);
+                    $cancel = '';
+                    $cancel_modal = '';
+                    $cancel_modal2 = '';
+                    $apply = '';
+                    $toast = Html::a('T', '', ['class' => 'btn btn-outline-info btn-toast']);
+                    if ($model->status_id == $statusesTitle['Новый']) {
+                        $apply = Html::a('Подтвердить', ['apply', 'id' => $model->id], ['class' => 'btn btn-outline-success',]);
+                        $cancel = Html::a('Отменить', ['cancel', 'id' => $model->id], ['class' => 'btn btn-outline-warning',]);
+                        $cancel_modal = Html::a('Отменить (модалка)', ['cancel-modal', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
+                        $cancel_modal2 = Html::a('Отменить (модалка2)', ['cancel-modal2', 'id' => $model->id], ['class' => 'btn btn-outline-warning btn-cancel-modal',]);
+
                         //         'data' => [
                         //             'confirm' => 'Вы точно хотите удалить данный заказ?',
                         //             'method' => 'post',
                         //         ],
                         //     ])
-                        //     : '';
-                        return "<div class='d-flex gap-3 flex-wrap'>$view $apply $cancel $cancel_modal $cancel_modal2</div>";
                     }
-                ],
+                    // $delete = $model->status_id == Status::getStatusId('Новый')
+                    //     ? Html::a('Удалить', ['delete', 'id' => $model->id], [
+                    //         'class' => 'btn btn-outline-danger',
+                    //         'data' => [
+                    //             'confirm' => 'Вы точно хотите удалить данный заказ?',
+                    //             'method' => 'post',
+                    //         ],
+                    //     ])
+                    //     : '';
+                    return "<div class='d-flex gap-3 flex-wrap'>$view $apply $cancel $cancel_modal $cancel_modal2 $toast</div>";
+                }
             ],
-        ]); ?>
+        ],
+    ]); ?>
+
+
 
     <?php Pjax::end(); ?>
 
 </div>
 
 <?php
-    if ($dataProvider->count) {
-        $this->params['order'] = [
-            'model' => $model_cancel,
-        ];
+if ($dataProvider->count) {
+    $this->params['order'] = [
+        'model' => $model_cancel,
+    ];
 
-        // Modal::begin([
-        //     'id' => 'cancel-modal',
-        //     'title' => 'Отмена заказа',
-        //     'size' => 'modal-lg'
-        // ]);    
-        //     echo $this->render('form-modal', compact('model_cancel'));    
-        // Modal::end();
+    // Modal::begin([
+    //     'id' => 'cancel-modal',
+    //     'title' => 'Отмена заказа',
+    //     'size' => 'modal-lg'
+    // ]);    
+    //     echo $this->render('form-modal', compact('model_cancel'));    
+    // Modal::end();
 
-        // $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
-    }
+    // $this->registerJsFile('/js/cancel-modal.js', ['depends' => JqueryAsset::class]);
+}
 
 ?>

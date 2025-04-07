@@ -25,6 +25,9 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         // 'js/cancel-modal2.js'
+        // 'js/bootstrap.bundle.min.js',
+        //  'js/bootstrap.min.js',
+        'js/toast.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
