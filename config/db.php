@@ -1,7 +1,7 @@
 <?php
 // var_dump($_SERVER); die;
 
-if ($_SERVER["DOCUMENT_ROOT"] == 'E:/OSPanel/domains/iv2-22-delivery') {
+if (str_contains(mb_strtolower($_SERVER["DOCUMENT_ROOT"]), 'panel/')) {
     return [
         'class' => 'yii\db\Connection',
         'dsn' => 'mysql:host=localhost;port=3306;dbname=delivery_22',
