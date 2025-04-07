@@ -1,5 +1,6 @@
 <?php
 
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -38,7 +39,19 @@ $config = [
             'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => '@app/mail',
             // send all mails to a file by default.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTrasport',
+                'scheme' => 'smtps',
+                'host' => 'smpt.mail.ru',
+                'username' => 'iv2-22-web@mail.ru',
+                'password' => 'Gfjb4mavnYuUbFguD84W',
+                'port' => 465,
+                // 'dsn' => 'native://default',
+                // 'options' => [
+                //     'ssl' => true,
+                // ]
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -57,6 +70,10 @@ $config = [
             'rules' => [
             ],
         ],
+
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         
     ],
     
@@ -65,10 +82,44 @@ $config = [
             'class' => 'app\modules\admin\Module',
             'defaultRoute' => 'order/index' // controller/action
         ],
+        
         'account' => [
             'class' => 'app\modules\account\Module',
             'defaultRoute' => 'order/index'
         ],
+        
+        'admin-lte' => [
+            'class' => 'app\modules\adminlte\Module',
+        ], 
+        
+        'dmf' => [
+            'class' => 'app\modules\dmf\Module',
+            'defaultRoute' => 'item/index',
+        ],
+
+        'rbac' => [
+            'class' => 'app\modules\rbac\Module',
+        ],
+    ],
+
+    'controllerMap' => [
+        'elfinder' => [
+			'class' => 'mihaildev\elfinder\PathController',
+			'access' => ['@'],
+			'root' => [
+				'path' => 'img',
+				'name' => 'Image'
+			],
+			// 'watermark' => [
+			// 			'source'         => __DIR__.'/logo.png', // Path to Water mark image
+			// 			 'marginRight'    => 5,          // Margin right pixel
+			// 			 'marginBottom'   => 5,          // Margin bottom pixel
+			// 			 'quality'        => 95,         // JPEG image save quality
+			// 			 'transparency'   => 70,         // Water mark image transparency ( other than PNG )
+			// 			 'targetType'     => IMG_GIF|IMG_JPG|IMG_PNG|IMG_WBMP, // Target image formats ( bit-field )
+			// 			 'targetMinPixel' => 200         // Target image minimum pixel size
+			// ]
+		]
     ],
 
     'params' => $params,    
@@ -76,12 +127,12 @@ $config = [
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
-    ];
+    // $config['bootstrap'][] = 'debug';
+    // $config['modules']['debug'] = [
+    //     'class' => 'yii\debug\Module',
+    //     // uncomment the following to add your IP if you are not connecting from localhost.
+    //     //'allowedIPs' => ['127.0.0.1', '::1'],
+    // ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
