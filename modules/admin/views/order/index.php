@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 $statusesTitle = array_flip($statuses);
 
 ?>
+
+
 <div class="order-index">
 
     <h3><?= Html::encode($this->title) ?></h3>
@@ -39,7 +41,7 @@ $statusesTitle = array_flip($statuses);
         'enablePushState' => false,
         'timeout' => 5000,
     ]); ?>
-
+    <div data-text="<?= $text ?>" data-bg-color = "<?= $bg_color ?>" class="toast-container position-fixed end-0 top-0 p-5 w-25" ></div>
     <?php
     if (Yii::$app->session->hasFlash('cancel-modal-info')) {
 

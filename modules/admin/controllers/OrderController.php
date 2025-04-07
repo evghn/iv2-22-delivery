@@ -39,7 +39,7 @@ class OrderController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($bg_color = "", $text = "")
     {
         $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -56,6 +56,8 @@ class OrderController extends Controller
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
             'model_cancel' => $model_cancel,
+            'bg_color' => $bg_color,
+            'text' => $text
         ]);
     }
 
@@ -149,17 +151,21 @@ class OrderController extends Controller
 
     public function actionApply($id)
     {
+        $state = "";
+        $text = ""; 
         if ($model = $this->findModel($id)) {
             if ($model->status_id == Status::getStatusId('Новый')) {
                 $model->status_id = Status::getStatusId('Готов к выдаче');
                 Yii::$app->session->setFlash('success', 'Заказ успешно подтвержден.');
                 if (!$model->save()) {
                     VarDumper::dump($model->errors, 10, true); die;
-                }
+                } 
+                $state = 'bg-success';
+                $text = "Заказ №{$model->id} успешно выполнен!";
             }
         }
 
-        return $this->redirect('index');
+        return $this->actionIndex($state, $text);
     }
 
     /**
