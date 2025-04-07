@@ -139,9 +139,9 @@ class Product extends \yii\db\ActiveRecord
             if ($this->imageFile) {
                 $fileName = Yii::$app->user->id
                     . '_'
-                    . time()
-                    . '_'
-                    . Yii::$app->security->generateRandomString(10)
+                    // . time()
+                    // . '_'
+                    . Yii::$app->security->generateRandomString(20)
                     . '.'
                     . $this->imageFile->extension;
                 $this->imageFile->saveAs('img/' . $fileName);
