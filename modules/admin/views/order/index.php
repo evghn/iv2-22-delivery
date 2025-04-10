@@ -41,14 +41,14 @@ $statusesTitle = array_flip($statuses);
         'enablePushState' => false,
         'timeout' => 5000,
     ]); ?>
-    <div data-text="<?= $text ?>" data-bg-color = "<?= $bg_color ?>" class="toast-container position-fixed end-0 top-0 p-5 w-25" ></div>
+    <div data-text="<?= $text ?>" data-bg-color = "<?= $bg_color ?>" class="toast-container position-fixed end-0 top-0 p-5" ></div>
     <?php
-    if (Yii::$app->session->hasFlash('cancel-modal-info')) {
+    // if (Yii::$app->session->hasFlash('cancel-modal-info')) {
 
-        Yii::$app->session->setFlash('warning', Yii::$app->session->getFlash('cancel-modal-info'));
-        Yii::$app->session->removeFlash('cancel-modal-info');
-        echo Alert::widget();
-    }
+    //     Yii::$app->session->setFlash('warning', Yii::$app->session->getFlash('cancel-modal-info'));
+    //     Yii::$app->session->removeFlash('cancel-modal-info');
+    //     echo Alert::widget();
+    // }
     ?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); 

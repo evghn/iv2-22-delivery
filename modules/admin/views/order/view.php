@@ -22,7 +22,7 @@ $this->title = "Заказ №"
     ];
 ?>
 <div class="order-view">
-
+<div data-text="<?= $text ?>" data-bg-color = "<?= $bg_color ?>" class="toast-container position-fixed end-0 top-0 p-5" ></div>
     <h3><?= Html::encode($this->title) ?></h3>
 
     <p id='order-view_block-btn'>
@@ -50,7 +50,7 @@ $this->title = "Заказ №"
             if (Yii::$app->session->hasFlash('cancel-modal-info')) {
                 Yii::$app->session->setFlash('warning', Yii::$app->session->getFlash('cancel-modal-info'));
                 Yii::$app->session->removeFlash('cancel-modal-info');
-                echo Alert::widget();
+                // echo Alert::widget();
             }
         ?>
 

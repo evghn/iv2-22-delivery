@@ -23,7 +23,7 @@ $(() => {
     
     }
 
-    $('#admin-order-pjax').on('pjax:end', function() {
+    $('#admin-order-pjax, #order-view-pjax').on('pjax:end', function() {
         const data_container = $('.toast-container');
         if (data_container.data('text').length) {
             toastAdd(data_container.data('text'), data_container.data('bg-color') );   
@@ -34,7 +34,7 @@ $(() => {
         e.preventDefault();
         // const entity = $(this);
         // console.log(entity)
-        toastAdd(`Текущее время ${new Date()}`);   
+        toastAdd(`Текущее время ${new Date()}`, 'bg-warning');   
 
 
     })   

@@ -68,9 +68,12 @@ class OrderController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
-    {
+    { 
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'bg_color' => 'bg-warning',
+            'text' => "Заказ №{$model->id} отменнен!",
         ]);
     }
 
@@ -90,7 +93,7 @@ class OrderController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->status_id = Status::getStatusId('Отмена');
-            Yii::$app->session->setFlash('warning', 'Заказ отменен.');
+            // Yii::$app->session->setFlash('warning', 'Заказ отменен.');
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -136,7 +139,7 @@ class OrderController extends Controller
             $model_cancel->status_id = Status::getStatusId('Отмена');
             
             if ($model_cancel->save()) {                
-                Yii::$app->session->setFlash('cancel-modal-info', "Заказ №$model_cancel->id - отменен!");
+                // Yii::$app->session->setFlash('cancel-modal-info', "Заказ №$model_cancel->id - отменен!");
                 $model_cancel->comment_admin = null;
                 
             } else {
@@ -156,7 +159,7 @@ class OrderController extends Controller
         if ($model = $this->findModel($id)) {
             if ($model->status_id == Status::getStatusId('Новый')) {
                 $model->status_id = Status::getStatusId('Готов к выдаче');
-                Yii::$app->session->setFlash('success', 'Заказ успешно подтвержден.');
+                // Yii::$app->session->setFlash('success', 'Заказ успешно подтвержден.');
                 if (!$model->save()) {
                     VarDumper::dump($model->errors, 10, true); die;
                 } 
